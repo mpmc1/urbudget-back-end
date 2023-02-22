@@ -19,6 +19,7 @@ ext {
 dependencies {
 	implementation 'com.azure.spring:spring-cloud-azure-starter-data-cosmos'
 	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
