@@ -3,13 +3,14 @@ package com.urbudget.apibudget.controller;
 import com.urbudget.apibudget.dto.BudgetDto;
 import com.urbudget.apibudget.dto.TransactionDto;
 import com.urbudget.apibudget.dto.UserDto;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@org.springframework.stereotype.Controller
+
+@Controller
 @RestController
 @RequestMapping("api/v1/budget")
-public class Controller {
-
+public class BudgetController {
     @GetMapping("users")
     public UserDto getUsers(){
         return new UserDto();
