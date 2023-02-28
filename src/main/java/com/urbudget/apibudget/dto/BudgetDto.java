@@ -1,8 +1,8 @@
 package com.urbudget.apibudget.dto;
 
 public class BudgetDto {
-    int year;
-    float value;
-    float monthIncomes;
-    float monthOutcomes;
+    private YearDto year;
+    private float value;
+    private float monthIncomes;
+    private float monthOutcomes;
 }
