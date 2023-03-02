@@ -1,21 +1,21 @@
-package com.urbudget.apibudget.dto;
+package com.urbudget.apibudget.domain.year;
 
-public class YearDto {
+public class Year {
 
     private String id;
     private int year;
 
-    public YearDto() {
+    public Year() {
 
     }
 
-    public YearDto(String id, int year) {
+    public Year(String id, int year) {
         setId(id);
         setYear(year);
     }
 
-    public static final YearDto create() {
-        return new YearDto();
+    public static final Year create() {
+        return new Year();
     }
 
     public final String getId() {

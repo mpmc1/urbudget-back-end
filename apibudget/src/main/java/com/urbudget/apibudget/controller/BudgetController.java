@@ -1,6 +1,6 @@
 package com.urbudget.apibudget.controller;
 
-import com.urbudget.apibudget.dto.BudgetDto;
+import com.urbudget.apibudget.domain.budget.Budget;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
 public class BudgetController {
 
     @GetMapping("users/{email}/budgets")
-    public BudgetDto getBudgetsByUser(){
-        return new BudgetDto();
+    public Budget getBudgetsByUser(){
+        return new Budget();
     }
     @PostMapping("users/{email}/budgets")
-    public BudgetDto createBudget(@RequestBody BudgetDto budget){
+    public Budget createBudget(@RequestBody Budget budget){
         return budget;
     }
     @PatchMapping("users/{email}/budgets/{budgetId}")
-    public BudgetDto updateBudget(@PathVariable String email, @PathVariable String budgetId){
-        return new BudgetDto();
+    public Budget updateBudget(@PathVariable String email, @PathVariable String budgetId){
+        return new Budget();
     }
     @GetMapping("user/{email}/budgets/{budgetId}")
-    public BudgetDto getBudget(@PathVariable String budgetId){
-        return new BudgetDto();
+    public Budget getBudget(@PathVariable String budgetId){
+        return new Budget();
     }
 
 }
