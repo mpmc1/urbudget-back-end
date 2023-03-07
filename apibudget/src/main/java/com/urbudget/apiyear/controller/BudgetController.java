@@ -1,6 +1,5 @@
-package com.urbudget.apibudget.controller;
+package com.urbudget.apiyear.controller;
 
-import com.urbudget.apibudget.domain.budget.Budget;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.urbudget.apibudget.repositories;
+package com.urbudget.apiyear.repositories;
 
 public interface YearRepository {
 }

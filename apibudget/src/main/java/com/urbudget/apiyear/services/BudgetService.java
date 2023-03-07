@@ -1,7 +1,7 @@
-package com.urbudget.apibudget.services;
+package com.urbudget.apiyear.services;
 
-import com.urbudget.apibudget.domain.budget.Budget;
-import com.urbudget.apibudget.repositories.BudgetRepository;
+import com.urbudget.apiyear.domain.budget.Budget;
+import com.urbudget.apiyear.repositories.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

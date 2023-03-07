@@ -1,4 +1,4 @@
-package com.urbudget.apibudget.domain.year;
+package com.urbudget.apiyear.domain.year;
 
 public class Year {
 

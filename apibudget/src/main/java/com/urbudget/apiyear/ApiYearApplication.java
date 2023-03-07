@@ -1,13 +1,13 @@
-package com.urbudget.apibudget;
+package com.urbudget.apiyear;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApibudgetApplication {
+public class ApiYearApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApibudgetApplication.class, args);
+		SpringApplication.run(ApiYearApplication.class, args);
 	}
 
 }

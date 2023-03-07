@@ -1,4 +1,4 @@
-package com.urbudget.apibudget.domain.transaction;
+package com.urbudget.apiyear.domain.transaction;
 
 import java.util.Date;
 

@@ -1,7 +1,8 @@
 package com.urbudget.apitransactions.controller;
 
-import com.urbudget.apitransactions.dto.TransactionDto;
-import com.urbudget.apitransactions.dto.UserDto;
+import com.urbudget.apitransactions.domain.Budget.Budget;
+import com.urbudget.apitransactions.domain.Transaction.Transaction;
+import com.urbudget.apitransactions.domain.User.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,36 +13,51 @@ import org.springframework.web.bind.annotation.*;
 public class TransactionController {
 
     @GetMapping("users")
-    public UserDto getUsers(){
-        return new UserDto();
+    public User getUsers(){
+        return new User();
     }
     @PostMapping("users")
-    public UserDto createUser(@RequestBody UserDto user){
+    public User createUser(@RequestBody User user){
         return user;
     }
     @PatchMapping("users/{email}")
-    public UserDto updateUser(@PathVariable String email){
-        return new UserDto();
+    public User updateUser(@PathVariable String email){
+        return new User();
     }
     @GetMapping("user/{email}")
-    public UserDto getUser(@PathVariable String email){
-        return new UserDto();
+    public User getUser(@PathVariable String email){
+        return new User();
     }
-
+    @GetMapping("users/{email}/budgets")
+    public Budget getBudgets(){
+        return new Budget();
+    }
+    @PostMapping("users/{email}/budgets/{budgetId}")
+    public Budget createBudget(@RequestBody Budget budget){
+        return budget;
+    }
+    @PatchMapping("users/{email}/budgets/{budgetId}")
+    public Budget updateBudget(@PathVariable String id){
+        return new Budget();
+    }
+    @GetMapping("users/{email}/budgets/{budgetId}")
+    public Budget getBudget(@PathVariable String id){
+        return new Budget();
+    }
     @GetMapping("users/{email}/budgets/{budgetId}/transactions")
-    public TransactionDto getTransactionsByBudget(){
-        return new TransactionDto();
+    public Transaction getTransactionsByBudget(){
+        return new Transaction();
     }
     @PostMapping("users/{email}/budgets/{budgetId}/transactions")
-    public TransactionDto createTransaction(@RequestBody TransactionDto transaction){
+    public Transaction createTransaction(@RequestBody Transaction transaction){
         return transaction;
     }
     @PatchMapping("users/{email}/budgets/{budgetId}/transactions/{transactionId}")
-    public TransactionDto updateTransaction(@PathVariable String transactionId){
-        return new TransactionDto();
+    public Transaction updateTransaction(@PathVariable String transactionId){
+        return new Transaction();
     }
     @GetMapping("user/{email}/budgets/{budgetId}/transactions/{transactionId}")
-    public TransactionDto getTransaction(@PathVariable String transactionId){
-        return new TransactionDto();
+    public Transaction getTransaction(@PathVariable String transactionId){
+        return new Transaction();
     }
 }
