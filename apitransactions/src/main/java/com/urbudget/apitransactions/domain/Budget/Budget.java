@@ -1,16 +1,18 @@
 package com.urbudget.apitransactions.domain.Budget;
 
+import com.urbudget.apitransactions.domain.User.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
 public class Budget {
     @Id
-    String id;
-    int year;
-    float ammount;
-    float monthIncomes;
-    float monthOutcomes;
+    private String id;
+    private int year;
+    private float ammount;
+    private float monthIncomes;
+    private float monthOutcomes;
+    private User user;
 
     public Budget() {
         this.id="";
@@ -18,6 +20,7 @@ public class Budget {
         this.ammount = 0;
         this.monthIncomes = 0;
         this.monthOutcomes = 0;
+        this.user=new User();
     }
     public Budget(String id,int year, float ammount, float monthIncomes, float monthOutcomes) {
         this.id = id;
