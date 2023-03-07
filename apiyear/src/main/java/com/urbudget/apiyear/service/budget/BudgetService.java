@@ -4,6 +4,8 @@ import com.urbudget.apiyear.domain.budget.Budget;
 import com.urbudget.apiyear.repository.budget.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,21 +14,27 @@ import java.util.Optional;
 public class BudgetService {
     @Autowired
     BudgetRepository budgetRepository;
-    private Optional<Budget> get(String id){
-        return budgetRepository.findById(id);
 
-    }
-    private Budget create(Budget budget){
-        return null;
+    public Flux<Budget> get() {
+        return budgetRepository.findAll();
     }
 
-    private Budget update(Budget budget){
-        return null;
+    /*
+    private Budget update(Budget budget)
+    {
+        return budgetRepository.;
+    }*/
+
+    public Mono<Budget> save(Budget budget) {
+
+        return budgetRepository.save(budget);
     }
 
-    private List<Budget> getAll(){
+    public Mono<Void> delete(String idBudget) {
+        return budgetRepository.findById(idBudget).flatMap(existingBudget -> budgetRepository.deleteById(idBudget));
+    }
 
-        return null;
-
+    public Mono<Budget> getById(String idBudget){
+        return budgetRepository.findById(idBudget);
     }
 }

@@ -1,6 +1,7 @@
 package com.urbudget.apiyear.repository.budget;
 
-import org.springframework.data.repository.CrudRepository;
+import com.urbudget.apiyear.domain.budget.Budget;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface BudgetRepository extends CrudRepository {
+public interface BudgetRepository extends ReactiveCrudRepository<Budget,String> {
 }

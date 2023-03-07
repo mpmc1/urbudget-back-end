@@ -24,5 +24,5 @@ public class YearController {
         public Year getYear(@PathVariable String yearId){
             return new Year();
         }
-        
+
 }
