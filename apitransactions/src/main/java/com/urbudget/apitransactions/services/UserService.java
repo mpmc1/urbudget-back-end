@@ -12,22 +12,22 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    private Iterable<User> getAll() {
+    public Iterable<User> getAll() {
         return userRepository.findAll();
 
     }
-    private Optional<User> getById(String id){
+    public Optional<User> getById(String id){
 
         return userRepository.findById(id);
     }
 
-    private User create(User user){
+    public User create(User user){
 
         return userRepository.save(user);
     }
 
 
-    private User update(User user){
+    public User update(User user){
 
         return userRepository.save(user);
     }

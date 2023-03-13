@@ -10,19 +10,19 @@ public class TransactionService {
     @Autowired
     TransactionRepository transactionRepository;
 
-    private Iterable<Transaction> getAll() {
-        return transactionRepository.findAll();
+    public Iterable<Transaction> getAllByBudget(String idBudget) {
+        return transactionRepository.getAllByBudget(idBudget);
     }
-    private Optional<Transaction> getOne(String id){
+    public Optional<Transaction> getOne(String id){
         return transactionRepository.findById(id);
     }
-    private void delete(String id){
+    public void delete(String id){
         transactionRepository.deleteById(id);
     }
-    private Transaction update(Transaction transaction){
+    public Transaction update(Transaction transaction){
         return transactionRepository.save(transaction);
     }
-    private Transaction create(Transaction transaction){
+    public Transaction create(Transaction transaction){
         return transactionRepository.save(transaction);
     }
 }
