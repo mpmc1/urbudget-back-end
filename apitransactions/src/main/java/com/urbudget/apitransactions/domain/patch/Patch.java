@@ -1,4 +1,4 @@
-package com.urbudget.apitransactions.domain.Patch;
+package com.urbudget.apitransactions.domain.patch;
 
 public class Patch {
     String op;

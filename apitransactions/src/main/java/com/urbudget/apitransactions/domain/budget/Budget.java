@@ -1,17 +1,23 @@
-package com.urbudget.apitransactions.domain.Budget;
+package com.urbudget.apitransactions.domain.budget;
 
-import com.urbudget.apitransactions.domain.User.User;
+import com.urbudget.apitransactions.domain.user.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity()
 public class Budget {
     @Id
+    @Column(name = "id_budget")
     private String id;
     private int year;
+    @Column(name = "value")
     private float ammount;
+    @Column(name = "monthincomes")
     private float monthIncomes;
+    @Column(name = "monthoutcomes")
     private float monthOutcomes;
+    @Column(name = "user_email")
     private User user;
 
     public Budget() {
@@ -60,5 +66,21 @@ public class Budget {
 
     public void setMonthOutcomes(float monthOutcomes) {
         this.monthOutcomes = monthOutcomes;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,8 +1,8 @@
 package com.urbudget.apitransactions.services;
 
-import com.urbudget.apitransactions.domain.Transaction.Transaction;
-import com.urbudget.apitransactions.domain.User.User;
+import com.urbudget.apitransactions.domain.user.User;
 import com.urbudget.apitransactions.repositories.UserRepository;
+import com.urbudget.apitransactions.utils.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -16,12 +16,12 @@ public class UserService {
         return userRepository.findAll();
 
     }
-    public Optional<User> getById(String id){
+    public User getById(String id){
 
-        return userRepository.findById(id);
+        return userRepository.findById(id).orElseThrow(()->new CustomException("User Not Found"));
     }
 
-    public User create(User user){
+    public User save(User user){
 
         return userRepository.save(user);
     }

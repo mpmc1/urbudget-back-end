@@ -1,6 +1,6 @@
 package com.urbudget.apitransactions.repositories;
 
-import com.urbudget.apitransactions.domain.Transaction.Transaction;
+import com.urbudget.apitransactions.domain.transaction.Transaction;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
