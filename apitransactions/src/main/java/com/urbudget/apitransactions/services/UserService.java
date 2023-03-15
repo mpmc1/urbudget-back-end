@@ -1,12 +1,10 @@
 package com.urbudget.apitransactions.services;
 
-import com.urbudget.apitransactions.domain.user.User;
+import com.urbudget.apitransactions.domain.User;
 import com.urbudget.apitransactions.repositories.UserRepository;
 import com.urbudget.apitransactions.utils.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserService {

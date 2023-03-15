@@ -1,6 +1,5 @@
-package com.urbudget.apitransactions.domain.budget;
+package com.urbudget.apitransactions.domain;
 
-import com.urbudget.apitransactions.domain.user.User;
 import com.urbudget.apitransactions.utils.CustomException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

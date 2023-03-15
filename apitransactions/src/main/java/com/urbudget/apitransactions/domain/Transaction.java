@@ -1,17 +1,14 @@
-package com.urbudget.apitransactions.domain.transaction;
+package com.urbudget.apitransactions.domain;
 
-import com.urbudget.apitransactions.domain.budget.Budget;
+import com.urbudget.apitransactions.domain.Budget;
 import com.urbudget.apitransactions.utils.CustomException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Year;
 import java.util.Date;
 
 @Entity

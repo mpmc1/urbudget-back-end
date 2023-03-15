@@ -1,14 +1,12 @@
 package com.urbudget.apitransactions.services;
 
-import com.urbudget.apitransactions.domain.budget.Budget;
-import com.urbudget.apitransactions.domain.user.User;
+import com.urbudget.apitransactions.domain.Budget;
 import com.urbudget.apitransactions.repositories.BudgetRepository;
 import com.urbudget.apitransactions.utils.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Year;
-import java.util.Optional;
 
 @Service
 public class BudgetService {

@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.urbudget"})
-@EnableJpaRepositories(basePackages = {"com.urbudget"})
-@EntityScan(basePackages = {"com.urbudget"})
+@ComponentScan(basePackages = {"com.urbudget.apitransactions"})
+@EnableJpaRepositories(basePackages = {"com.urbudget.apitransactions"})
+@EntityScan(basePackages = {"com.urbudget.apitransactions"})
 public class ApitransactionsApplication {
 
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.urbudget.apitransactions.domain.response;
+package com.urbudget.apitransactions.domain;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,10 @@
 package com.urbudget.apitransactions.controller;
 
-import com.urbudget.apitransactions.domain.transaction.Transaction;
-import com.urbudget.apitransactions.domain.patch.Patch;
-import com.urbudget.apitransactions.domain.response.Response;
-import com.urbudget.apitransactions.domain.user.User;
-import com.urbudget.apitransactions.domain.budget.Budget;
+import com.urbudget.apitransactions.domain.Transaction;
+import com.urbudget.apitransactions.domain.Patch;
+import com.urbudget.apitransactions.domain.Response;
+import com.urbudget.apitransactions.domain.User;
+import com.urbudget.apitransactions.domain.Budget;
 import com.urbudget.apitransactions.services.BudgetService;
 import com.urbudget.apitransactions.services.TransactionService;
 import com.urbudget.apitransactions.services.UserService;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RestController
 @RequestMapping("api/v1/transaction")
-
 public class TransactionController {
 
     @Autowired
@@ -27,9 +26,9 @@ public class TransactionController {
     @Autowired
     BudgetService budgetService;
 
-    @GetMapping
-    public Iterable<User> getUsers() {
-        return userService.getAll();
+    @GetMapping("users")
+    public String getUsers() {
+        return "userService.getAll();";
     }
 
     @PostMapping("users")
