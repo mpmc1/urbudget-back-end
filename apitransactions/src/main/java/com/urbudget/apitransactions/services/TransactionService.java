@@ -4,9 +4,9 @@ import com.urbudget.apitransactions.domain.transaction.Transaction;
 import com.urbudget.apitransactions.repositories.TransactionRepository;
 import com.urbudget.apitransactions.utils.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+@Service
 public class TransactionService {
     @Autowired
     TransactionRepository transactionRepository;

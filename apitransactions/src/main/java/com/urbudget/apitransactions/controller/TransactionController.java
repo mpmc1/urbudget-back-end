@@ -1,18 +1,18 @@
 package com.urbudget.apitransactions.controller;
 
-import com.urbudget.apitransactions.domain.budget.Budget;
+import com.urbudget.apitransactions.domain.transaction.Transaction;
 import com.urbudget.apitransactions.domain.patch.Patch;
 import com.urbudget.apitransactions.domain.response.Response;
-import com.urbudget.apitransactions.domain.transaction.Transaction;
 import com.urbudget.apitransactions.domain.user.User;
+import com.urbudget.apitransactions.domain.budget.Budget;
 import com.urbudget.apitransactions.services.BudgetService;
 import com.urbudget.apitransactions.services.TransactionService;
 import com.urbudget.apitransactions.services.UserService;
+import com.urbudget.apitransactions.utils.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @Controller
 @RestController
@@ -27,7 +27,7 @@ public class TransactionController {
     @Autowired
     BudgetService budgetService;
 
-    @GetMapping("users")
+    @GetMapping
     public Iterable<User> getUsers() {
         return userService.getAll();
     }
@@ -61,12 +61,23 @@ public class TransactionController {
 
     @PatchMapping("users/{email}")
     public Response<User> patchUser(@PathVariable String email, @RequestBody Patch patch) {
-        User userToUpdate = userService.getById(email);
         Response<User> response = new Response<>();
         try{
-            User responseUser = userService.update(userToUpdate);
-            response.setData(responseUser);
-            response.addMessage("Success");
+            User userToUpdate = userService.getById(email);
+            switch (patch.getOp()) {
+                case "replace" -> userToUpdate.setByKey(patch.getKey(), patch.getValue());
+                case "remove" -> userToUpdate.setByKey(patch.getKey(), null);
+                case "test" -> {
+                    boolean comparisonResult = userToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
+                    response.addMessage(String.valueOf(comparisonResult));
+                }
+                default -> throw new CustomException("Not valid operation");
+            }
+            if(response.getMessages().isEmpty()){
+                User responseUser = userService.update(userToUpdate);
+                response.setData(responseUser);
+                response.addMessage("Success");
+            }
         }catch (Exception e){
             response.addMessage(e.getMessage());
         }
@@ -129,9 +140,20 @@ public class TransactionController {
         Response<Budget> response = new Response<>();
         try{
             Budget budgetToUpdate = budgetService.getOne(id);
-            Budget responseBudget = budgetService.save(budgetToUpdate);
-            response.setData(responseBudget);
-            response.addMessage("Success");
+            switch (patch.getOp()) {
+                case "replace" -> budgetToUpdate.setByKey(patch.getKey(), patch.getValue());
+                case "remove" -> budgetToUpdate.setByKey(patch.getKey(), null);
+                case "test" -> {
+                    boolean comparisonResult = budgetToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
+                    response.addMessage(String.valueOf(comparisonResult));
+                }
+                default -> throw new CustomException("Not valid operation");
+            }
+            if(response.getMessages().isEmpty()){
+                Budget responseBudget = budgetService.save(budgetToUpdate);
+                response.setData(responseBudget);
+                response.addMessage("Success");
+            }
         }catch (Exception e){
             response.addMessage(e.getMessage());
         }
@@ -188,7 +210,19 @@ public class TransactionController {
         Response<Transaction> response = new Response<>();
         try{
             Transaction transactionToUpdate = transactionService.getOne(transactionId);
-            response.setData(transactionService.save(transactionToUpdate));
+            switch (patch.getOp()) {
+                case "replace" -> transactionToUpdate.setByKey(patch.getKey(), patch.getValue());
+                case "remove" -> transactionToUpdate.setByKey(patch.getKey(), null);
+                case "test" -> {
+                    boolean comparisonResult = transactionToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
+                    response.addMessage(String.valueOf(comparisonResult));
+                }
+                default -> throw new CustomException("Not valid operation");
+            }
+            if(response.getMessages().isEmpty()){
+                response.setData(transactionService.save(transactionToUpdate));
+                response.addMessage("Success");
+            }
         }catch (Exception e){
             response.addMessage(e.getMessage());
         }

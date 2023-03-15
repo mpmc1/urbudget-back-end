@@ -1,15 +1,21 @@
 package com.urbudget.apitransactions.domain.budget;
 
 import com.urbudget.apitransactions.domain.user.User;
+import com.urbudget.apitransactions.utils.CustomException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Entity()
+import java.time.Year;
+
+@Entity
+@Table
 public class Budget {
     @Id
     @Column(name = "id_budget")
     private String id;
+    @Column
     private int year;
     @Column(name = "value")
     private float ammount;
@@ -83,4 +89,26 @@ public class Budget {
     public void setUser(User user) {
         this.user = user;
     }
+    public void setByKey(String key, String value){
+        switch (key) {
+            case "year" -> {
+                int yearNumber = Integer.parseInt(value);
+                if (yearNumber > Year.now().getValue()) setYear(yearNumber);
+            }
+            case "ammount" -> setAmmount(Float.parseFloat(value));
+            case "monthIncomes" -> setMonthIncomes(Float.parseFloat(value));
+            case "monthOutcomes" -> setMonthOutcomes(Float.parseFloat(value));
+            default -> throw new CustomException(key + " can't be changed");
+        }
+    }
+    public String getByKey(String key){
+        return switch (key) {
+            case "year" -> String.valueOf(getYear());
+            case "ammount" -> String.valueOf(getAmmount());
+            case "monthIncomes" -> String.valueOf(getMonthIncomes());
+            case "monthOutcomes" -> String.valueOf(getMonthOutcomes());
+            default -> throw new CustomException(key + " can't be tested");
+        };
+    }
 }
+
