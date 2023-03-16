@@ -79,7 +79,7 @@ public class TransactionController {
         return response;
     }
 
-    @GetMapping("user/{email}")
+    @GetMapping("users/{email}")
     public Response<Person> getUser(@PathVariable String email) {
         Response<Person> response = new Response<>();
         try {
