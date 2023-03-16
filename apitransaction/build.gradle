@@ -15,7 +15,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.0.4'
 	implementation group:'io.jsonwebtoken', name:'jjwt', version: '0.9.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.7.0'
