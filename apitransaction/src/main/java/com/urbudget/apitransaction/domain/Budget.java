@@ -23,6 +23,7 @@ public class Budget {
     @JoinColumn(name = "user_email")
     private Person person;
 
+
     public Budget() {
         this.id="";
         this.year = 0;
