@@ -1,6 +1,7 @@
-package com.urbudget.apitransaction.repository;
+package com.urbudget.apitransaction.service;
 
 import com.urbudget.apitransaction.domain.Person;
+import com.urbudget.apitransaction.repository.PersonRepository;
 import com.urbudget.apitransaction.util.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 
-public class JwtUserDetailsService {
+@Service
+public class JwtUserDetailsService implements UserDetailsService{
     @Autowired
     private PersonRepository personRepository;
 
