@@ -36,17 +36,21 @@ public class JwtAuthenticationController {
     private UserDetailsService jwtInMemoryUserDetailsService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
-            throws Exception {
+    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
+            throws CustomException {
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        try {
+            authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+            final UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(authenticationRequest.getUsername());
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
+            final String token = jwtTokenUtil.generateToken(userDetails);
+            return ResponseEntity.ok(new JwtResponse(token));
+        }catch (Exception e){
+            throw new CustomException(e.getMessage());
+        }
 
-        return ResponseEntity.ok(new JwtResponse(token));
     }
 
     @PostMapping("/register")
