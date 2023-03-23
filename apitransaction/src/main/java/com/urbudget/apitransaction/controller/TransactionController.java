@@ -21,6 +21,7 @@ public class TransactionController {
     @Autowired
     BudgetService budgetService;
 
+    private static final String NOT_VALID="Not valid operation";
     @GetMapping("/users")
     public Iterable<Person> getUsers() {
         return personService.getAll();
@@ -31,7 +32,6 @@ public class TransactionController {
         Response<Person> response = new Response<>();
         try {
             Person responsePerson = personService.save(person);
-            ;
             response.setData(responsePerson);
             response.addMessage("Success");
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class TransactionController {
                     boolean comparisonResult = personToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
                     response.addMessage(String.valueOf(comparisonResult));
                 }
-                default -> throw new CustomException("Not valid operation");
+                default -> throw new CustomException(NOT_VALID);
             }
             if (response.getMessages().isEmpty()) {
                 Person responsePerson = personService.update(personToUpdate);
@@ -142,7 +142,7 @@ public class TransactionController {
                     boolean comparisonResult = budgetToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
                     response.addMessage(String.valueOf(comparisonResult));
                 }
-                default -> throw new CustomException("Not valid operation");
+                default -> throw new CustomException(NOT_VALID);
             }
             if (response.getMessages().isEmpty()) {
                 Budget responseBudget = budgetService.save(budgetToUpdate);
@@ -212,7 +212,7 @@ public class TransactionController {
                     boolean comparisonResult = transactionToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
                     response.addMessage(String.valueOf(comparisonResult));
                 }
-                default -> throw new CustomException("Not valid operation");
+                default -> throw new CustomException(NOT_VALID);
             }
             if (response.getMessages().isEmpty()) {
                 response.setData(transactionService.save(transactionToUpdate));
