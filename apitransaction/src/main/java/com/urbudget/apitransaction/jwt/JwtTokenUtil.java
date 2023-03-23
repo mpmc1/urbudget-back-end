@@ -21,6 +21,8 @@ public class JwtTokenUtil implements Serializable {
 
     public static final long JWT_TOKEN_VALIDITY = 3600;
 
+    public static final Boolean IGNORE_TOKEN_EXPIRATION = false;
+
     @Value("${jwt.secret}")
     private String secret;
 
@@ -51,11 +53,6 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(new Date());
     }
 
-    private Boolean ignoreTokenExpiration() {
-        // here you specify tokens, for that the expiration is ignored
-        return false;
-    }
-
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
@@ -68,7 +65,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean canTokenBeRefreshed(String token) {
-        return (!isTokenExpired(token) || ignoreTokenExpiration());
+        return (!isTokenExpired(token) || IGNORE_TOKEN_EXPIRATION);
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
