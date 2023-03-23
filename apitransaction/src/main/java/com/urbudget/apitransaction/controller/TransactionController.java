@@ -22,6 +22,9 @@ public class TransactionController {
     BudgetService budgetService;
 
     private static final String NOT_VALID="Not valid operation";
+    private static final String SUCCESS="Success";
+    private static final String REMOVE="remove";
+    private static final String REPLACE="replace";
     @GetMapping("/users")
     public Iterable<Person> getUsers() {
         return personService.getAll();
@@ -33,7 +36,7 @@ public class TransactionController {
         try {
             Person responsePerson = personService.save(person);
             response.setData(responsePerson);
-            response.addMessage("Success");
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -46,7 +49,7 @@ public class TransactionController {
         try {
             Person responsePerson = personService.update(person);
             response.setData(responsePerson);
-            response.addMessage("Success");
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -60,8 +63,8 @@ public class TransactionController {
         try {
             Person personToUpdate = personService.getById(email);
             switch (patch.getOp()) {
-                case "replace" -> personToUpdate.setByKey(patch.getKey(), patch.getValue());
-                case "remove" -> personToUpdate.setByKey(patch.getKey(), null);
+                case REPLACE -> personToUpdate.setByKey(patch.getKey(), patch.getValue());
+                case REMOVE -> personToUpdate.setByKey(patch.getKey(), null);
                 case "test" -> {
                     boolean comparisonResult = personToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
                     response.addMessage(String.valueOf(comparisonResult));
@@ -71,7 +74,7 @@ public class TransactionController {
             if (response.getMessages().isEmpty()) {
                 Person responsePerson = personService.update(personToUpdate);
                 response.setData(responsePerson);
-                response.addMessage("Success");
+                response.addMessage(SUCCESS);
             }
         } catch (Exception e) {
             response.addMessage(e.getMessage());
@@ -85,7 +88,7 @@ public class TransactionController {
         try {
             Person responsePerson = personService.getById(email);
             response.setData(responsePerson);
-            response.addMessage("Success");
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -98,7 +101,7 @@ public class TransactionController {
         try {
             Iterable<Budget> responseBudget = budgetService.getAll();
             response.setData(responseBudget);
-            response.addMessage("Success");
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -112,7 +115,7 @@ public class TransactionController {
         try {
             Budget responseBudget = budgetService.save(budget);
             response.setData(responseBudget);
-            response.addMessage("Success");
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -136,8 +139,8 @@ public class TransactionController {
         try {
             Budget budgetToUpdate = budgetService.getOne(id);
             switch (patch.getOp()) {
-                case "replace" -> budgetToUpdate.setByKey(patch.getKey(), patch.getValue());
-                case "remove" -> budgetToUpdate.setByKey(patch.getKey(), null);
+                case REPLACE -> budgetToUpdate.setByKey(patch.getKey(), patch.getValue());
+                case REMOVE -> budgetToUpdate.setByKey(patch.getKey(), null);
                 case "test" -> {
                     boolean comparisonResult = budgetToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
                     response.addMessage(String.valueOf(comparisonResult));
@@ -147,7 +150,7 @@ public class TransactionController {
             if (response.getMessages().isEmpty()) {
                 Budget responseBudget = budgetService.save(budgetToUpdate);
                 response.setData(responseBudget);
-                response.addMessage("Success");
+                response.addMessage(SUCCESS);
             }
         } catch (Exception e) {
             response.addMessage(e.getMessage());
@@ -177,8 +180,9 @@ public class TransactionController {
         return response;
     }
 
+    @PutMapping("users/{email}/budgets/{budgetId}/transactions")
     @PostMapping("users/{email}/budgets/{budgetId}/transactions")
-    public Response<Transaction> createTransaction(@RequestBody Transaction transaction) {
+    public Response<Transaction> saveTransaction(@RequestBody Transaction transaction) {
         Response<Transaction> response = new Response<>();
         try {
             response.setData(transactionService.save(transaction));
@@ -186,18 +190,6 @@ public class TransactionController {
             response.addMessage(e.getMessage());
         }
         return response;
-    }
-
-    @PutMapping("users/{email}/budgets/{budgetId}/transactions/{transactionId}")
-    public Response<Transaction> updateTransaction(@RequestBody Transaction transaction) {
-        Response<Transaction> response = new Response<>();
-        try {
-            response.setData(transactionService.save(transaction));
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-
     }
 
     @PatchMapping("users/{email}/budgets/{budgetId}/transactions/{transactionId}")
@@ -206,8 +198,8 @@ public class TransactionController {
         try {
             Transaction transactionToUpdate = transactionService.getOne(transactionId);
             switch (patch.getOp()) {
-                case "replace" -> transactionToUpdate.setByKey(patch.getKey(), patch.getValue());
-                case "remove" -> transactionToUpdate.setByKey(patch.getKey(), null);
+                case REPLACE -> transactionToUpdate.setByKey(patch.getKey(), patch.getValue());
+                case REMOVE -> transactionToUpdate.setByKey(patch.getKey(), null);
                 case "test" -> {
                     boolean comparisonResult = transactionToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
                     response.addMessage(String.valueOf(comparisonResult));
@@ -216,7 +208,7 @@ public class TransactionController {
             }
             if (response.getMessages().isEmpty()) {
                 response.setData(transactionService.save(transactionToUpdate));
-                response.addMessage("Success");
+                response.addMessage(SUCCESS);
             }
         } catch (Exception e) {
             response.addMessage(e.getMessage());
