@@ -22,7 +22,8 @@ public class BudgetService {
         if (budget.getYear() > Year.now().getValue()) {
             Optional<Budget> budgetWithSameYear = budgetRepository.
                     getOneByPersonAndYear(budget.getUser().getEmail(),budget.getYear());
-            if(budgetWithSameYear.isEmpty()) return budgetRepository.save(budget);
+            if(budgetWithSameYear.isEmpty() || budgetWithSameYear.get().getId().equals(budget.getId()))
+                return budgetRepository.save(budget);
             else throw new CustomException("Already exist a budget to that year");
         }else{
             throw new CustomException("Year has to be greater than actual");
