@@ -34,7 +34,9 @@ public class BudgetService {
     }
 
     public Budget getOne(String personId,String idBudget) {
-        return budgetRepository.getOneByPersonAndId(personId, idBudget).orElseThrow(()->new CustomException("Budget Not Found"));
+        personService.getById(personId);
+        return budgetRepository.getOneByPersonAndId(personId, idBudget)
+                .orElseThrow(()->new CustomException("Budget not found"));
     }
 
     public void delete(String id) {

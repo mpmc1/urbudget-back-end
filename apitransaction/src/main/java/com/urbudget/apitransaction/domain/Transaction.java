@@ -1,11 +1,13 @@
 package com.urbudget.apitransaction.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.urbudget.apitransaction.util.CustomException;
 import jakarta.persistence.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "transaction")
@@ -17,9 +19,35 @@ public class Transaction {
     private Date dateOfTransaction;
     @Column(name = "ammount")
     private float ammount;
+    @Column(name = "description")
+    private String description;
     @ManyToOne
     @JoinColumn(name = "budget_id_budget")
     private Budget budget;
+
+    public Transaction() {
+        this.id = UUID.randomUUID().toString();
+        this.dateOfTransaction = new Date();
+        this.ammount = 0;
+        this.description = "";
+        this.budget = new Budget();
+    }
+
+    public Transaction(float ammount, Budget budget, String description) {
+        this.id = UUID.randomUUID().toString();
+        this.dateOfTransaction = new Date();
+        this.ammount = ammount;
+        this.budget = budget;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getId() {
         return id;
@@ -54,16 +82,9 @@ public class Transaction {
     }
 
     public void setByKey(String key, String value) {
-        if(key.equals("dateOfTransaction")){
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
-            try {
-                setDateOfTransaction(formatter.parse(value));
-            }catch (ParseException e){
-                throw  new CustomException(e.getMessage());
-            }
-        } else if (key.equals("ammount")) {
-            setAmmount(Float.parseFloat(value));
-        }else{
+        if(key.equals("description")){
+                setDescription(value);
+        } else{
             throw new CustomException(key + " can't be changed");
         }
     }
@@ -71,6 +92,7 @@ public class Transaction {
         return switch (key) {
             case "dateOfTransaction" -> String.valueOf(getDateOfTransaction());
             case "ammount" -> String.valueOf(getAmmount());
+            case "description" -> String.valueOf(getDescription());
             default -> throw new CustomException(key + " can't be tested");
         };
     }

@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 public class TransactionService {
     @Autowired
     TransactionRepository transactionRepository;
-    @Autowired
-    BudgetService budgetService;
 
     public Iterable<Transaction> getAllByBudget(Budget budget) {
         return transactionRepository.getAllByBudget(budget.getId());

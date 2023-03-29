@@ -5,6 +5,7 @@ import com.urbudget.apitransaction.service.BudgetService;
 import com.urbudget.apitransaction.service.TransactionService;
 import com.urbudget.apitransaction.service.PersonService;
 import com.urbudget.apitransaction.util.CustomException;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -88,7 +89,7 @@ public class TransactionController {
             personService.getById(email);
             Iterable<Budget> responseBudget = budgetService.getAll(email);
             response.setData(responseBudget);
-            response.addMessage(SUCCESS);
+                response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -117,6 +118,8 @@ public class TransactionController {
         Response<Budget> response = new Response<>();
         try {
             Budget budgetToUpdate = budgetService.getOne(email,id);
+            Object person = Hibernate.unproxy(budgetToUpdate.getUser());
+            budgetToUpdate.setUser((Person) person);
             switch (patch.getOp()) {
                 case REPLACE -> budgetToUpdate.setByKey(patch.getKey(), patch.getValue());
                 case REMOVE -> budgetToUpdate.setByKey(patch.getKey(), null);
@@ -141,7 +144,11 @@ public class TransactionController {
     public Response<Budget> getBudget(@PathVariable("email") String email, @PathVariable("budgetId") String id) {
         Response<Budget> response = new Response<>();
         try {
-            budgetService.getOne(email, id);
+            Budget budget = budgetService.getOne(email, id);
+            Object person = Hibernate.unproxy(budget.getUser());
+            budget.setUser((Person) person);
+            response.setData(budget);
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -155,22 +162,24 @@ public class TransactionController {
         try {
             Budget budget = budgetService.getOne(email,budgetId);
             response.setData(transactionService.getAllByBudget(budget));
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
         return response;
     }
 
-    @PutMapping("users/{email}/budgets/{budgetId}/transactions")
     @PostMapping("users/{email}/budgets/{budgetId}/transactions")
     public Response<Transaction> saveTransaction(@PathVariable("email") String email,
                                                  @PathVariable("budgetId") String budgetId,
-                                                 @RequestBody Transaction transaction) {
+                                                 @RequestBody TransactionDTO transactionDTO) {
         Response<Transaction> response = new Response<>();
         try {
             Budget budget = budgetService.getOne(email,budgetId);
-            transaction.setBudget(budget);
+            Transaction transaction =
+                    new Transaction(transactionDTO.getAmmount(),budget, transactionDTO.getDescription());
             response.setData(transactionService.save(transaction));
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -205,7 +214,7 @@ public class TransactionController {
         return response;
     }
 
-    @GetMapping("user/{email}/budgets/{budgetId}/transactions/{transactionId}")
+    @GetMapping("users/{email}/budgets/{budgetId}/transactions/{transactionId}")
     public Response<Transaction> getTransaction(@PathVariable("email") String email,
                                                 @PathVariable("budgetId") String budgetId,
                                                 @PathVariable String transactionId) {
@@ -213,6 +222,7 @@ public class TransactionController {
         try {
             Budget budget= budgetService.getOne(email,budgetId);
             response.setData(transactionService.getOneByBudgetAndId(budget,transactionId));
+            response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }

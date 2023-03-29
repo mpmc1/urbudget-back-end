@@ -15,8 +15,7 @@ public interface BudgetRepository extends CrudRepository<Budget, String> {
             value = "SELECT * FROM budget b WHERE b.user_email = ?1 AND b.year = ?2")
     public Optional<Budget> getOneByPersonAndYear(String personEmail, int year);
     @Query(nativeQuery = true,
-            value = "SELECT * FROM budget b INNER JOIN person p ON b.user_email = p.email" +
-                    " WHERE b.id_budget = '0' AND b.user_email='carlos@uco.edu.co'")
+            value = "SELECT * FROM budget b WHERE b.id_budget = ?2 AND b.user_email= ?1")
     public Optional<Budget> getOneByPersonAndId(String personEmail, String idBudget);
 }
 
