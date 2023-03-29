@@ -1,5 +1,6 @@
 package com.urbudget.apitransaction.service;
 
+import com.urbudget.apitransaction.domain.Budget;
 import com.urbudget.apitransaction.domain.Transaction;
 import com.urbudget.apitransaction.repository.TransactionRepository;
 import com.urbudget.apitransaction.util.CustomException;
@@ -13,12 +14,11 @@ public class TransactionService {
     @Autowired
     BudgetService budgetService;
 
-    public Iterable<Transaction> getAllByBudget(String idBudget) {
-        budgetService.getOne(idBudget);
-        return transactionRepository.getAllByBudget(idBudget);
+    public Iterable<Transaction> getAllByBudget(Budget budget) {
+        return transactionRepository.getAllByBudget(budget.getId());
     }
-    public Transaction getOne(String id){
-        return transactionRepository.findById(id).orElseThrow(()->new CustomException("Transaction Not Found"));
+    public Transaction getOneByBudgetAndId(Budget budget, String id){
+        return transactionRepository.getOneByBudgetAndId(budget.getId(),id).orElseThrow(()->new CustomException("Transaction Not Found"));
     }
     public void delete(String id){
         transactionRepository.deleteById(id);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Year;
+import java.util.Optional;
 
 @Service
 public class BudgetService {
@@ -19,18 +20,21 @@ public class BudgetService {
     public Budget save(Budget budget) {
         personService.getById(budget.getUser().getEmail());
         if (budget.getYear() > Year.now().getValue()) {
-            return budgetRepository.save(budget);
+            Optional<Budget> budgetWithSameYear = budgetRepository.
+                    getOneByPersonAndYear(budget.getUser().getEmail(),budget.getYear());
+            if(budgetWithSameYear.isEmpty()) return budgetRepository.save(budget);
+            else throw new CustomException("Already exist a budget to that year");
         }else{
             throw new CustomException("Year has to be greater than actual");
         }
     }
 
-    public Iterable<Budget> getAll() {
-        return budgetRepository.findAll();
+    public Iterable<Budget> getAll(String email) {
+        return budgetRepository.getAllByPerson(email);
     }
 
-    public Budget getOne(String id) {
-        return budgetRepository.findById(id).orElseThrow(()->new CustomException("Budget Not Found"));
+    public Budget getOne(String personId,String idBudget) {
+        return budgetRepository.getOneByPersonAndId(personId, idBudget).orElseThrow(()->new CustomException("Budget Not Found"));
     }
 
     public void delete(String id) {

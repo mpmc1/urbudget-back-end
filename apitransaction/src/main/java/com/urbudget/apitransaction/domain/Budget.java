@@ -4,6 +4,7 @@ import com.urbudget.apitransaction.util.CustomException;
 import jakarta.persistence.*;
 
 import java.time.Year;
+import java.util.UUID;
 
 @Entity
 @Table(name="budget")
@@ -25,15 +26,14 @@ public class Budget {
 
 
     public Budget() {
-        this.id="";
+        this.id = UUID.randomUUID().toString();
         this.year = 0;
         this.ammount = 0;
         this.monthIncomes = 0;
         this.monthOutcomes = 0;
         this.person =new Person();
     }
-    public Budget(String id,int year, float ammount, float monthIncomes, float monthOutcomes) {
-        this.id = id;
+    public Budget(int year, float ammount, float monthIncomes, float monthOutcomes) {
         this.year = year;
         this.ammount = ammount;
         this.monthIncomes = monthIncomes;

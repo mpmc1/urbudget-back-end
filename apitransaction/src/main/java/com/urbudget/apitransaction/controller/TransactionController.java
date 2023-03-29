@@ -43,20 +43,6 @@ public class TransactionController {
         return response;
     }
 
-    @PutMapping("users")
-    public Response<Person> updateUser(@RequestBody Person person) {
-        Response<Person> response = new Response<>();
-        try {
-            Person responsePerson = personService.update(person);
-            response.setData(responsePerson);
-            response.addMessage(SUCCESS);
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-
-    }
-
     @PatchMapping("users/{email}")
     public Response<Person> patchUser(@PathVariable String email, @RequestBody Patch patch) {
         Response<Person> response = new Response<>();
@@ -96,10 +82,11 @@ public class TransactionController {
     }
 
     @GetMapping("users/{email}/budgets")
-    public Response<Iterable<Budget>> getBudgets() {
+    public Response<Iterable<Budget>> getBudgets(@PathVariable("email") String email) {
         Response<Iterable<Budget>> response = new Response<>();
         try {
-            Iterable<Budget> responseBudget = budgetService.getAll();
+            personService.getById(email);
+            Iterable<Budget> responseBudget = budgetService.getAll(email);
             response.setData(responseBudget);
             response.addMessage(SUCCESS);
         } catch (Exception e) {
@@ -109,10 +96,12 @@ public class TransactionController {
 
     }
 
-    @PostMapping("users/{email}/budgets/{budgetId}")
-    public Response<Budget> createBudget(@RequestBody Budget budget) {
+    @PostMapping("users/{email}/budgets")
+    public Response<Budget> createBudget(@PathVariable("email") String personEmail, @RequestBody Budget budget) {
         Response<Budget> response = new Response<>();
         try {
+            Person person = personService.getById(personEmail);
+            budget.setUser(person);
             Budget responseBudget = budgetService.save(budget);
             response.setData(responseBudget);
             response.addMessage(SUCCESS);
@@ -122,22 +111,12 @@ public class TransactionController {
         return response;
     }
 
-    @PutMapping("users/{email}/budgets/{budgetId}")
-    public Response<Budget> updateBudget(@RequestBody Budget budget) {
-        Response<Budget> response = new Response<>();
-        try {
-            budgetService.save(budget);
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-    }
-
     @PatchMapping("users/{email}/budgets/{budgetId}")
-    public Response<Budget> patchBudget(@PathVariable String id, @RequestBody Patch patch) {
+    public Response<Budget> patchBudget(@PathVariable("email") String email,
+                                        @PathVariable("budgetId") String id, @RequestBody Patch patch) {
         Response<Budget> response = new Response<>();
         try {
-            Budget budgetToUpdate = budgetService.getOne(id);
+            Budget budgetToUpdate = budgetService.getOne(email,id);
             switch (patch.getOp()) {
                 case REPLACE -> budgetToUpdate.setByKey(patch.getKey(), patch.getValue());
                 case REMOVE -> budgetToUpdate.setByKey(patch.getKey(), null);
@@ -159,10 +138,10 @@ public class TransactionController {
     }
 
     @GetMapping("users/{email}/budgets/{budgetId}")
-    public Response<Budget> getBudget(@PathVariable String id) {
+    public Response<Budget> getBudget(@PathVariable("email") String email, @PathVariable("budgetId") String id) {
         Response<Budget> response = new Response<>();
         try {
-            budgetService.getOne(id);
+            budgetService.getOne(email, id);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -170,10 +149,12 @@ public class TransactionController {
     }
 
     @GetMapping("users/{email}/budgets/{budgetId}/transactions")
-    public Response<Iterable<Transaction>> getTransactionsByBudget(@PathVariable String budgetId) {
+    public Response<Iterable<Transaction>> getTransactionsByBudget(@PathVariable("email") String email,
+                                                                   @PathVariable("budgetId") String budgetId) {
         Response<Iterable<Transaction>> response = new Response<>();
         try {
-            response.setData(transactionService.getAllByBudget(budgetId));
+            Budget budget = budgetService.getOne(email,budgetId);
+            response.setData(transactionService.getAllByBudget(budget));
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
@@ -182,9 +163,13 @@ public class TransactionController {
 
     @PutMapping("users/{email}/budgets/{budgetId}/transactions")
     @PostMapping("users/{email}/budgets/{budgetId}/transactions")
-    public Response<Transaction> saveTransaction(@RequestBody Transaction transaction) {
+    public Response<Transaction> saveTransaction(@PathVariable("email") String email,
+                                                 @PathVariable("budgetId") String budgetId,
+                                                 @RequestBody Transaction transaction) {
         Response<Transaction> response = new Response<>();
         try {
+            Budget budget = budgetService.getOne(email,budgetId);
+            transaction.setBudget(budget);
             response.setData(transactionService.save(transaction));
         } catch (Exception e) {
             response.addMessage(e.getMessage());
@@ -193,10 +178,14 @@ public class TransactionController {
     }
 
     @PatchMapping("users/{email}/budgets/{budgetId}/transactions/{transactionId}")
-    public Response<Transaction> patchTransaction(@PathVariable String transactionId, @RequestBody Patch patch) {
+    public Response<Transaction> patchTransaction(@PathVariable("email") String email,
+                                                  @PathVariable("budgetId") String budgetId,
+                                                  @PathVariable("transactionId") String transactionId,
+                                                  @RequestBody Patch patch) {
         Response<Transaction> response = new Response<>();
         try {
-            Transaction transactionToUpdate = transactionService.getOne(transactionId);
+            Budget budget = budgetService.getOne(email,budgetId);
+            Transaction transactionToUpdate = transactionService.getOneByBudgetAndId(budget,transactionId);
             switch (patch.getOp()) {
                 case REPLACE -> transactionToUpdate.setByKey(patch.getKey(), patch.getValue());
                 case REMOVE -> transactionToUpdate.setByKey(patch.getKey(), null);
@@ -217,10 +206,13 @@ public class TransactionController {
     }
 
     @GetMapping("user/{email}/budgets/{budgetId}/transactions/{transactionId}")
-    public Response<Transaction> getTransaction(@PathVariable String transactionId) {
+    public Response<Transaction> getTransaction(@PathVariable("email") String email,
+                                                @PathVariable("budgetId") String budgetId,
+                                                @PathVariable String transactionId) {
         Response<Transaction> response = new Response<>();
         try {
-            response.setData(transactionService.getOne(transactionId));
+            Budget budget= budgetService.getOne(email,budgetId);
+            response.setData(transactionService.getOneByBudgetAndId(budget,transactionId));
         } catch (Exception e) {
             response.addMessage(e.getMessage());
         }
