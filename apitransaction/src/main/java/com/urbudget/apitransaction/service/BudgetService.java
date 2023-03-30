@@ -1,6 +1,6 @@
 package com.urbudget.apitransaction.service;
 
-import com.urbudget.apitransaction.domain.Budget;
+import com.urbudget.apitransaction.domain.budget.Budget;
 import com.urbudget.apitransaction.repository.BudgetRepository;
 import com.urbudget.apitransaction.util.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "person")
@@ -12,6 +13,7 @@ public class Person {
 
     @Id
     @Column
+    @Email
     private String email;
     @Column
     private String name;

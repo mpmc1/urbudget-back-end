@@ -1,6 +1,7 @@
 package com.urbudget.apitransaction.controller;
 
 import com.urbudget.apitransaction.domain.*;
+import com.urbudget.apitransaction.domain.budget.Budget;
 import com.urbudget.apitransaction.service.BudgetService;
 import com.urbudget.apitransaction.service.TransactionService;
 import com.urbudget.apitransaction.service.PersonService;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class TransactionController {
 
     @Autowired
-    PersonService personService;
-    @Autowired
     TransactionService transactionService;
     @Autowired
     BudgetService budgetService;
@@ -26,135 +25,6 @@ public class TransactionController {
     private static final String SUCCESS="Success";
     private static final String REMOVE="remove";
     private static final String REPLACE="replace";
-    @GetMapping("/users")
-    public Iterable<Person> getUsers() {
-        return personService.getAll();
-    }
-
-    @PostMapping("users")
-    public Response<Person> createUser(@RequestBody Person person) {
-        Response<Person> response = new Response<>();
-        try {
-            Person responsePerson = personService.save(person);
-            response.setData(responsePerson);
-            response.addMessage(SUCCESS);
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-    }
-
-    @PatchMapping("users/{email}")
-    public Response<Person> patchUser(@PathVariable String email, @RequestBody Patch patch) {
-        Response<Person> response = new Response<>();
-        try {
-            Person personToUpdate = personService.getById(email);
-            switch (patch.getOp()) {
-                case REPLACE -> personToUpdate.setByKey(patch.getKey(), patch.getValue());
-                case REMOVE -> personToUpdate.setByKey(patch.getKey(), null);
-                case "test" -> {
-                    boolean comparisonResult = personToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
-                    response.addMessage(String.valueOf(comparisonResult));
-                }
-                default -> throw new CustomException(NOT_VALID);
-            }
-            if (response.getMessages().isEmpty()) {
-                Person responsePerson = personService.update(personToUpdate);
-                response.setData(responsePerson);
-                response.addMessage(SUCCESS);
-            }
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-    }
-
-    @GetMapping("users/{email}")
-    public Response<Person> getUser(@PathVariable String email) {
-        Response<Person> response = new Response<>();
-        try {
-            Person responsePerson = personService.getById(email);
-            response.setData(responsePerson);
-            response.addMessage(SUCCESS);
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-    }
-
-    @GetMapping("users/{email}/budgets")
-    public Response<Iterable<Budget>> getBudgets(@PathVariable("email") String email) {
-        Response<Iterable<Budget>> response = new Response<>();
-        try {
-            personService.getById(email);
-            Iterable<Budget> responseBudget = budgetService.getAll(email);
-            response.setData(responseBudget);
-                response.addMessage(SUCCESS);
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-
-    }
-
-    @PostMapping("users/{email}/budgets")
-    public Response<Budget> createBudget(@PathVariable("email") String personEmail, @RequestBody Budget budget) {
-        Response<Budget> response = new Response<>();
-        try {
-            Person person = personService.getById(personEmail);
-            budget.setUser(person);
-            Budget responseBudget = budgetService.save(budget);
-            response.setData(responseBudget);
-            response.addMessage(SUCCESS);
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-    }
-
-    @PatchMapping("users/{email}/budgets/{budgetId}")
-    public Response<Budget> patchBudget(@PathVariable("email") String email,
-                                        @PathVariable("budgetId") String id, @RequestBody Patch patch) {
-        Response<Budget> response = new Response<>();
-        try {
-            Budget budgetToUpdate = budgetService.getOne(email,id);
-            Object person = Hibernate.unproxy(budgetToUpdate.getUser());
-            budgetToUpdate.setUser((Person) person);
-            switch (patch.getOp()) {
-                case REPLACE -> budgetToUpdate.setByKey(patch.getKey(), patch.getValue());
-                case REMOVE -> budgetToUpdate.setByKey(patch.getKey(), null);
-                case "test" -> {
-                    boolean comparisonResult = budgetToUpdate.getByKey(patch.getKey()).equals(patch.getValue());
-                    response.addMessage(String.valueOf(comparisonResult));
-                }
-                default -> throw new CustomException(NOT_VALID);
-            }
-            if (response.getMessages().isEmpty()) {
-                Budget responseBudget = budgetService.save(budgetToUpdate);
-                response.setData(responseBudget);
-                response.addMessage(SUCCESS);
-            }
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-    }
-
-    @GetMapping("users/{email}/budgets/{budgetId}")
-    public Response<Budget> getBudget(@PathVariable("email") String email, @PathVariable("budgetId") String id) {
-        Response<Budget> response = new Response<>();
-        try {
-            Budget budget = budgetService.getOne(email, id);
-            Object person = Hibernate.unproxy(budget.getUser());
-            budget.setUser((Person) person);
-            response.setData(budget);
-            response.addMessage(SUCCESS);
-        } catch (Exception e) {
-            response.addMessage(e.getMessage());
-        }
-        return response;
-    }
-
     @GetMapping("users/{email}/budgets/{budgetId}/transactions")
     public Response<Iterable<Transaction>> getTransactionsByBudget(@PathVariable("email") String email,
                                                                    @PathVariable("budgetId") String budgetId) {
