@@ -1,4 +1,4 @@
-package com.urbudget.apitransaction.repository;
+package com.urbudget.apitransaction.repository.transaction;
 
 import com.urbudget.apitransaction.domain.transaction.Transaction;
 import org.springframework.data.jpa.repository.Query;
