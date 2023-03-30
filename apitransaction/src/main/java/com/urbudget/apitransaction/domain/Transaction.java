@@ -1,11 +1,9 @@
 package com.urbudget.apitransaction.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.urbudget.apitransaction.util.CustomException;
 import jakarta.persistence.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.UUID;
 
