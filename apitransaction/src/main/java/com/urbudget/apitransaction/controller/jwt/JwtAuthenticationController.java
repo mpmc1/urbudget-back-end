@@ -1,6 +1,6 @@
 package com.urbudget.apitransaction.controller.jwt;
 
-import com.urbudget.apitransaction.domain.Person;
+import com.urbudget.apitransaction.domain.person.Person;
 import com.urbudget.apitransaction.domain.jwt.JwtRequest;
 import com.urbudget.apitransaction.domain.jwt.JwtResponse;
 import com.urbudget.apitransaction.jwt.JwtTokenUtil;

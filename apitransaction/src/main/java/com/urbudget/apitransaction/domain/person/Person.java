@@ -1,4 +1,4 @@
-package com.urbudget.apitransaction.domain;
+package com.urbudget.apitransaction.domain.person;
 
 import com.urbudget.apitransaction.util.CustomException;
 import jakarta.persistence.Column;
