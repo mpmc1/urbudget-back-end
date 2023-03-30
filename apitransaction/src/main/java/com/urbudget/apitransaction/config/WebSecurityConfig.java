@@ -2,7 +2,7 @@ package com.urbudget.apitransaction.config;
 
 import com.urbudget.apitransaction.jwt.JwtAuthenticationEntryPoint;
 import com.urbudget.apitransaction.jwt.JwtRequestFilter;
-import com.urbudget.apitransaction.service.JwtUserDetailsService;
+import com.urbudget.apitransaction.service.jwtuserdetail.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

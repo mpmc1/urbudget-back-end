@@ -2,7 +2,7 @@ package com.urbudget.apitransaction.jwt;
 
 import java.io.IOException;
 
-import com.urbudget.apitransaction.service.JwtUserDetailsService;
+import com.urbudget.apitransaction.service.jwtuserdetail.JwtUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

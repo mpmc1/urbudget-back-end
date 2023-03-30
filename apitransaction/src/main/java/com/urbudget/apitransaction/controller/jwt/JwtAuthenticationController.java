@@ -4,7 +4,7 @@ import com.urbudget.apitransaction.domain.person.Person;
 import com.urbudget.apitransaction.domain.jwt.JwtRequest;
 import com.urbudget.apitransaction.domain.jwt.JwtResponse;
 import com.urbudget.apitransaction.jwt.JwtTokenUtil;
-import com.urbudget.apitransaction.service.JwtUserDetailsService;
+import com.urbudget.apitransaction.service.jwtuserdetail.JwtUserDetailsService;
 import com.urbudget.apitransaction.util.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
