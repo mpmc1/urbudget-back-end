@@ -1,6 +1,5 @@
 package com.urbudget.apitransaction.domain.budget;
-
-import com.urbudget.apitransaction.domain.Person;
+import com.urbudget.apitransaction.domain.person.Person;
 import com.urbudget.apitransaction.util.CustomException;
 import jakarta.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.urbudget.apitransaction.domain;
+package com.urbudget.apitransaction.domain.transactiondto;
 
 public class TransactionDTO {
     private float ammount;

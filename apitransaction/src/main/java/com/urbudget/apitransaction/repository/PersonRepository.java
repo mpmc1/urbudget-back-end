@@ -1,6 +1,6 @@
 package com.urbudget.apitransaction.repository;
 
-import com.urbudget.apitransaction.domain.Person;
+import com.urbudget.apitransaction.domain.person.Person;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

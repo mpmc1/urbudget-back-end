@@ -1,4 +1,4 @@
-package com.urbudget.apitransaction.domain;
+package com.urbudget.apitransaction.domain.transaction;
 
 import com.urbudget.apitransaction.domain.budget.Budget;
 import com.urbudget.apitransaction.util.CustomException;
