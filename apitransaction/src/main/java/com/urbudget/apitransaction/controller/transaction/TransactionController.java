@@ -1,4 +1,4 @@
-package com.urbudget.apitransaction.controller;
+package com.urbudget.apitransaction.controller.transaction;
 
 import com.urbudget.apitransaction.domain.budget.Budget;
 import com.urbudget.apitransaction.domain.patch.Patch;

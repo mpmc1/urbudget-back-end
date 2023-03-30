@@ -1,11 +1,9 @@
 package com.urbudget.apitransaction.controller.user;
 
-import com.urbudget.apitransaction.domain.Patch;
-import com.urbudget.apitransaction.domain.Person;
-import com.urbudget.apitransaction.domain.Response;
-import com.urbudget.apitransaction.service.BudgetService;
-import com.urbudget.apitransaction.service.PersonService;
-import com.urbudget.apitransaction.service.TransactionService;
+import com.urbudget.apitransaction.domain.patch.Patch;
+import com.urbudget.apitransaction.domain.person.Person;
+import com.urbudget.apitransaction.domain.response.Response;
+import com.urbudget.apitransaction.service.person.PersonService;
 import com.urbudget.apitransaction.util.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,12 +1,11 @@
 package com.urbudget.apitransaction.controller.budget;
-
-import com.urbudget.apitransaction.domain.Budget;
-import com.urbudget.apitransaction.domain.Patch;
-import com.urbudget.apitransaction.domain.Person;
-import com.urbudget.apitransaction.domain.Response;
-import com.urbudget.apitransaction.service.BudgetService;
-import com.urbudget.apitransaction.service.PersonService;
-import com.urbudget.apitransaction.service.TransactionService;
+import com.urbudget.apitransaction.domain.budget.Budget;
+import com.urbudget.apitransaction.domain.patch.Patch;
+import com.urbudget.apitransaction.domain.person.Person;
+import com.urbudget.apitransaction.domain.response.Response;
+import com.urbudget.apitransaction.service.budget.BudgetService;
+import com.urbudget.apitransaction.service.person.PersonService;
+import com.urbudget.apitransaction.service.transaction.TransactionService;
 import com.urbudget.apitransaction.util.CustomException;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
