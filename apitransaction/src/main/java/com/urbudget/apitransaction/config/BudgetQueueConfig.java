@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@ConfigurationProperties(prefix = "client.procesar")
-public class ClientQueueConfig {
+@ConfigurationProperties(prefix = "apitransaction.procesar")
+public class BudgetQueueConfig {
 
     private String exchangeName;
     private String routingKeyName;
