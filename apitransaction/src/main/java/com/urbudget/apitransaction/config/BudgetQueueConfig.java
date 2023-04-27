@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@ConfigurationProperties(prefix = "apitransaction.procesar")
+@ConfigurationProperties(prefix = "budget.procesar")
 public class BudgetQueueConfig {
 
     private String exchangeName;

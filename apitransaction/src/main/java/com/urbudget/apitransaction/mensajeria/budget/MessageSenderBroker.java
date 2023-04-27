@@ -30,6 +30,8 @@ public class MessageSenderBroker implements MessageSender<Budget> {
     public void execute(Budget message, String idMessage) {
         MessageProperties propiedadesMensaje = generarPropiedadesMensaje(idMessage);
 
+
+        System.out.println("Execute");
         Optional<Message> cuerpoMensaje = obtenerCuerpoMensaje(message, propiedadesMensaje);
         if (!cuerpoMensaje.isPresent()) {
             return;

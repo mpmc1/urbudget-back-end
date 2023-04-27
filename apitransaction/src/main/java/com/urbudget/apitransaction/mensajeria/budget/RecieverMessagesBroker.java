@@ -22,7 +22,7 @@ public class RecieverMessagesBroker {
     @RabbitListener(queues = "${budget.queue-recibir.budget.queue-name}")
     public void receiveMessageProcessClient(String message) {
         try {
-            budgetService.save(obtenerObjetoDeMensaje(message).get());
+            System.out.println(message);
         } catch (Exception e) {
             System.out.println(e);
         }
