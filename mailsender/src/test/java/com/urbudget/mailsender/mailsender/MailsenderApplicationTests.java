@@ -1,10 +1,10 @@
-package com.urbudget.apiyear;
+package com.urbudget.mailsender.mailsender;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApiyearApplicationTests {
+class MailsenderApplicationTests {
 
 	@Test
 	void contextLoads() {
