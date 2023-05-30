@@ -20,13 +20,6 @@ public class BudgetService {
     @Autowired
     PersonService personService;
 
-    private final MessageSender<Budget> messageSenderClient;
-
-    public BudgetService(MessageSender<Budget> messageSenderClient) {
-        this.messageSenderClient = messageSenderClient;
-    }
-
-
     public Budget save(Budget budget) {
         personService.getById(budget.getUser().getEmail());
         if (budget.getYear() > Year.now().getValue()) {
@@ -34,7 +27,6 @@ public class BudgetService {
                     getOneByPersonAndYear(budget.getUser().getEmail(),budget.getYear());
             if(budgetWithSameYear.isEmpty() || budgetWithSameYear.get().getId().equals(budget.getId())){
                 Budget savedBudget = budgetRepository.save(budget);
-                messageSenderClient.execute(savedBudget, UUID.randomUUID().toString());
                 return savedBudget;}
             else throw new CustomException("Already exist a budget to that year");
         }else{

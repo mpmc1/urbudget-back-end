@@ -1,8 +1,8 @@
 package com.urbudget.apitransaction.mensajeria.budget;
 
+import com.urbudget.apitransaction.domain.transaction.Transaction;
 import org.springframework.amqp.core.MessageProperties;
-import com.urbudget.apitransaction.config.BudgetQueueConfig;
-import com.urbudget.apitransaction.domain.budget.Budget;
+import com.urbudget.apitransaction.config.TransactionQueueConfig;
 import com.urbudget.apitransaction.util.MessageSender;
 import com.urbudget.apitransaction.util.gson.MapperJsonObjeto;
 import org.springframework.amqp.core.Message;
@@ -14,29 +14,30 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class MessageSenderBroker implements MessageSender<Budget> {
+public class MessageSenderBroker implements MessageSender<Transaction> {
 
     private final RabbitTemplate rabbitTemplate;
     private final MapperJsonObjeto mapperJsonObjeto;
-    private final BudgetQueueConfig budgetQueueConfig;
+    private final TransactionQueueConfig transactionQueueConfig;
 
-    public MessageSenderBroker(RabbitTemplate rabbitTemplate, MapperJsonObjeto mapperJsonObjeto, BudgetQueueConfig clientQueueConfig) {
+    public MessageSenderBroker(RabbitTemplate rabbitTemplate, MapperJsonObjeto mapperJsonObjeto, TransactionQueueConfig clientQueueConfig) {
         this.rabbitTemplate = rabbitTemplate;
         this.mapperJsonObjeto = mapperJsonObjeto;
-        this.budgetQueueConfig = clientQueueConfig;
+        this.transactionQueueConfig = clientQueueConfig;
     }
 
     @Override
-    public void execute(Budget message, String idMessage) {
+    public void execute(Transaction message, String idMessage) {
         MessageProperties propiedadesMensaje = generarPropiedadesMensaje(idMessage);
 
 
         System.out.println("Execute");
+        System.out.println(mapperJsonObjeto.ejecutarGson(message));
         Optional<Message> cuerpoMensaje = obtenerCuerpoMensaje(message, propiedadesMensaje);
         if (!cuerpoMensaje.isPresent()) {
             return;
         }
-        rabbitTemplate.convertAndSend(budgetQueueConfig.getExchangeName(), budgetQueueConfig.getRoutingKeyName(), cuerpoMensaje.get());
+        rabbitTemplate.convertAndSend(transactionQueueConfig.getExchangeName(), transactionQueueConfig.getRoutingKeyName(), cuerpoMensaje.get());
     }
 
     private MessageProperties generarPropiedadesMensaje(String idMessageSender) {

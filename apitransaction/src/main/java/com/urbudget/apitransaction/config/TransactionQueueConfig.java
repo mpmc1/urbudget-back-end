@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "budget.procesar")
-public class BudgetQueueConfig {
+public class TransactionQueueConfig {
 
     private String exchangeName;
     private String routingKeyName;

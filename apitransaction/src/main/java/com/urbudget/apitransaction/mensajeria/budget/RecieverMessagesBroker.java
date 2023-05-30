@@ -1,7 +1,9 @@
 package com.urbudget.apitransaction.mensajeria.budget;
 
 import com.urbudget.apitransaction.domain.budget.Budget;
+import com.urbudget.apitransaction.domain.transaction.Transaction;
 import com.urbudget.apitransaction.service.budget.BudgetService;
+import com.urbudget.apitransaction.service.transaction.TransactionService;
 import com.urbudget.apitransaction.util.gson.MapperJsonObjeto;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import java.util.Optional;
 @Component
 public class RecieverMessagesBroker {
     @Autowired
-    private BudgetService budgetService;
+    private TransactionService transactionService;
 
     private final MapperJsonObjeto mapperJsonObjeto;
     public RecieverMessagesBroker(MapperJsonObjeto mapperJsonObjeto) {
@@ -27,8 +29,8 @@ public class RecieverMessagesBroker {
             System.out.println(e);
         }
     }
-    private Optional<Budget> obtenerObjetoDeMensaje(String mensaje) {
-        return mapperJsonObjeto.ejecutar(mensaje, Budget.class);
+    private Optional<Transaction> obtenerObjetoDeMensaje(String mensaje) {
+        return mapperJsonObjeto.ejecutar(mensaje, Transaction.class);
     }
 
 
