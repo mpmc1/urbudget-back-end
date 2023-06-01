@@ -21,10 +21,10 @@ public class RecieverMessagesBroker {
 
     }
 
-    @RabbitListener(queues = "${budget.queue-recibir.budget.queue-name}")
+    //@RabbitListener(queues = "${budget.queue-recibir.budget.queue-name}")
     public void receiveMessageProcessClient(String message) {
         try {
-            System.out.println(message);
+            System.out.println(message+ "\n Reciever");
         } catch (Exception e) {
             System.out.println(e);
         }

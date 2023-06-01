@@ -30,9 +30,6 @@ public class MessageSenderBroker implements MessageSender<Transaction> {
     public void execute(Transaction message, String idMessage) {
         MessageProperties propiedadesMensaje = generarPropiedadesMensaje(idMessage);
 
-
-        System.out.println("Execute");
-        System.out.println(mapperJsonObjeto.ejecutarGson(message));
         Optional<Message> cuerpoMensaje = obtenerCuerpoMensaje(message, propiedadesMensaje);
         if (!cuerpoMensaje.isPresent()) {
             return;

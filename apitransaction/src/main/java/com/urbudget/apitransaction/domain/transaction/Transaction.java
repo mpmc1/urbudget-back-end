@@ -1,5 +1,6 @@
 package com.urbudget.apitransaction.domain.transaction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.urbudget.apitransaction.domain.budget.Budget;
 import com.urbudget.apitransaction.util.CustomException;
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ public class Transaction {
     @Column(name = "id_transaction")
     private String id;
     @Column(name = "dateoftransaction")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date dateOfTransaction;
     @Column(name = "ammount")
     private float ammount;
