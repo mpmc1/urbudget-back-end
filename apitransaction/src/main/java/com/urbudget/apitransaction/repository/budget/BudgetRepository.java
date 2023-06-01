@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface BudgetRepository extends CrudRepository<Budget, String> {
-    @Query(nativeQuery = true, value = "SELECT * FROM budget b WHERE b.user_email = ?1")
-    public Iterable<Budget> getAllByPerson(String person);
+    @Query(nativeQuery = true, value = "SELECT * FROM budget b  WHERE b.user_email= ?1 order by b.year asc limit 1")
+    public Optional<Budget> getIdByPerson(String personEmail);
     @Query(nativeQuery = true,
             value = "SELECT * FROM budget b WHERE b.user_email = ?1 AND b.year = ?2")
     public Optional<Budget> getOneByPersonAndYear(String personEmail, int year);

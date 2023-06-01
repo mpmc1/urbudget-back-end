@@ -34,8 +34,11 @@ public class BudgetService {
         }
     }
 
-    public Iterable<Budget> getAll(String email) {
-        return budgetRepository.getAllByPerson(email);
+    public Budget getIdByEmail(String personId) {
+        personService.getById(personId);
+        return budgetRepository.getIdByPerson(personId)
+                .orElseThrow(()->new CustomException("Budget not found"));
+
     }
 
     public Budget getOne(String personId,String idBudget) {

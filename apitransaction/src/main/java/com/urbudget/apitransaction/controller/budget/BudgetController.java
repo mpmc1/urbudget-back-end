@@ -87,4 +87,20 @@ public class BudgetController {
         return response;
     }
 
+    @GetMapping("users/{email}/budgets")
+    public Response<Budget> getBudgetById(@PathVariable("email") String email) {
+        Response<Budget> response = new Response<>();
+        try {
+            Budget budget = budgetService.getIdByEmail(email);
+            Object person = Hibernate.unproxy(budget.getUser());
+            budget.setUser((Person) person);
+            response.setData(budget);
+            response.addMessage(SUCCESS);
+        } catch (Exception e) {
+            response.addMessage(e.getMessage());
+        }
+        return response;
+    }
+
+
 }
