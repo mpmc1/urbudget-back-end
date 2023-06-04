@@ -23,15 +23,20 @@ public class TransactionService {
     public Iterable<Transaction> getAllByBudget(Budget budget) {
         return transactionRepository.getAllByBudget(budget.getId());
     }
+
     public Transaction getOneByBudgetAndId(Budget budget, String id){
         return transactionRepository.getOneByBudgetAndId(budget.getId(),id).orElseThrow(()->new CustomException("Transaction Not Found"));
     }
     public void delete(String id){
         transactionRepository.deleteById(id);
     }
-    public Transaction save(Transaction transaction){
-        Transaction saveTransaction = transactionRepository.save(transaction);
-        messageSenderClient.execute(saveTransaction, UUID.randomUUID().toString());
-        return saveTransaction;
+    public Transaction save(Transaction transaction) {
+        if (transaction.getAmmount() > 0) {
+            Transaction saveTransaction = transactionRepository.save(transaction);
+            messageSenderClient.execute(saveTransaction, UUID.randomUUID().toString());
+            return saveTransaction;
+        } else {
+            throw new CustomException("Amount of the transaction cannot be less than or equal to zero");
+        }
     }
 }
