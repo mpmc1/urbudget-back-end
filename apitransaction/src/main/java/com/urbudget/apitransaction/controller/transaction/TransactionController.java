@@ -9,6 +9,8 @@ import com.urbudget.apitransaction.service.budget.BudgetService;
 import com.urbudget.apitransaction.service.transaction.TransactionService;
 import com.urbudget.apitransaction.util.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,10 +43,12 @@ public class TransactionController {
     }
 
     @PostMapping("users/{email}/budgets/{budgetId}/transactions")
-    public Response<Transaction> saveTransaction(@PathVariable("email") String email,
+    public ResponseEntity<Response<Transaction>> saveTransaction(@PathVariable("email") String email,
                                                  @PathVariable("budgetId") String budgetId,
                                                  @RequestBody TransactionDTO transactionDTO) {
         Response<Transaction> response = new Response<>();
+        ResponseEntity<Response<Transaction>> responseEntity;
+        HttpStatus status = HttpStatus.OK;
         try {
             Budget budget = budgetService.getOne(email,budgetId);
             Transaction transaction =
@@ -53,8 +57,10 @@ public class TransactionController {
             response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
         }
-        return response;
+        responseEntity = new ResponseEntity<>(response, status);
+        return responseEntity;
     }
 
     @PatchMapping("users/{email}/budgets/{budgetId}/transactions/{transactionId}")

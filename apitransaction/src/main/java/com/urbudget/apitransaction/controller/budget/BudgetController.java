@@ -3,12 +3,15 @@ import com.urbudget.apitransaction.domain.budget.Budget;
 import com.urbudget.apitransaction.domain.patch.Patch;
 import com.urbudget.apitransaction.domain.person.Person;
 import com.urbudget.apitransaction.domain.response.Response;
+import com.urbudget.apitransaction.domain.transaction.Transaction;
 import com.urbudget.apitransaction.service.budget.BudgetService;
 import com.urbudget.apitransaction.service.person.PersonService;
 import com.urbudget.apitransaction.service.transaction.TransactionService;
 import com.urbudget.apitransaction.util.CustomException;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +33,10 @@ public class BudgetController {
     private static final String REPLACE="replace";
 
     @PostMapping("users/{email}/budgets")
-    public Response<Budget> createBudget(@PathVariable("email") String personEmail, @RequestBody Budget budget) {
+    public ResponseEntity<Response<Budget>> createBudget(@PathVariable("email") String personEmail, @RequestBody Budget budget) {
         Response<Budget> response = new Response<>();
+        ResponseEntity<Response<Budget>> responseEntity;
+        HttpStatus status = HttpStatus.OK;
         try {
             Person person = personService.getById(personEmail);
             budget.setUser(person);
@@ -40,8 +45,10 @@ public class BudgetController {
             response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
         }
-        return response;
+        responseEntity = new ResponseEntity<>(response, status);
+        return responseEntity;
     }
 
     @PatchMapping("users/{email}/budgets/{budgetId}")
@@ -88,8 +95,10 @@ public class BudgetController {
     }
 
     @GetMapping("users/{email}/budgets")
-    public Response<Budget> getBudgetById(@PathVariable("email") String email) {
+    public ResponseEntity<Response<Budget>> getBudgetById(@PathVariable("email") String email) {
         Response<Budget> response = new Response<>();
+        ResponseEntity<Response<Budget>> responseEntity;
+        HttpStatus status = HttpStatus.OK;
         try {
             Budget budget = budgetService.getIdByEmail(email);
             Object person = Hibernate.unproxy(budget.getUser());
@@ -98,8 +107,10 @@ public class BudgetController {
             response.addMessage(SUCCESS);
         } catch (Exception e) {
             response.addMessage(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
         }
-        return response;
+        responseEntity = new ResponseEntity<>(response, status);
+        return responseEntity;
     }
 
 
